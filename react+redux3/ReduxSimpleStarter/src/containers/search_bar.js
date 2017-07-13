@@ -38,19 +38,14 @@ class SearchBar extends Component {
           <button
             type='submit'
             className='btn btn-secondary'
-            >Search</button>
+            >Search
+          </button>
         </span>
       </form>
     )
   }
 }
 
-// const mapStateToProps = state => {
-//   return {
-//
-//   }
-// }
-//
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ fetchWeather }, dispatch)
 }
