@@ -1,9 +1,25 @@
+import _ from 'lodash'
 import React, { Component } from 'react'
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux'
 import { addPost } from '../actions/index'
+
+const FIELDS = {
+  title: {
+    tag: 'input',
+    label: 'Title'
+  },
+  categories: {
+    tag: 'input',
+    label: 'Categories'
+  },
+  content: {
+    tag: 'textarea',
+    label: 'Post Content'
+  }
+}
 
 class PostsNew extends Component {
   renderField (field) {
@@ -13,7 +29,7 @@ class PostsNew extends Component {
     return (
       <div className={className}>
         <label>{field.label}</label>
-        <input
+        <field.tag
           type='text'
           className='form-control'
           {...field.input}
@@ -31,23 +47,21 @@ class PostsNew extends Component {
 
   render () {
     const { handleSubmit } = this.props
+    const fields = _.keys(FIELDS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        <Field
-          label='Title'
-          name='title'
-          component={this.renderField}
-        />
-        <Field
-          label='Categories'
-          name='categories'
-          component={this.renderField}
-        />
-        <Field
-          label='Post Content'
-          name='content'
-          component={this.renderField}
-        />
+        { _.map(fields, (field) => {
+          return (
+            <Field
+              key={field}
+              label={FIELDS[field].label}
+              name={field}
+              tag={FIELDS[field].tag}
+              component={this.renderField}
+            />
+          )
+        })
+        }
         <button type='submit' className='btn btn-primary'>Submit</button>
         <Link to='/' className='btn btn-danger'>Cancel</Link>
       </form>
@@ -59,17 +73,12 @@ class PostsNew extends Component {
 function validate (values) {
   const errors = {}
 
-  // validate inputs
-  if (!values.title) {
-    errors.title = 'Enter a title'
-  }
-  if (!values.categories) {
-    errors.categories = 'Enter some categories'
-  }
-  if (!values.content) {
-    errors.content = 'Enter some content'
-  }
-  // if errors is empty, the form is fine to submit
+  _.each(_.keys(FIELDS), (field) => {
+    if (!values.field) {
+      errors[field] = `Enter some ${field}`
+    }
+  })
+
   return errors
 }
 
