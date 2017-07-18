@@ -7,15 +7,15 @@ import { connect } from 'react-redux'
 import { addPost } from '../actions/index'
 
 const FIELDS = {
-  title: {
+  title : {
     tag: 'input',
     label: 'Title'
   },
-  categories: {
+  categories : {
     tag: 'input',
     label: 'Categories'
   },
-  content: {
+  content : {
     tag: 'textarea',
     label: 'Post Content'
   }
@@ -47,10 +47,10 @@ class PostsNew extends Component {
 
   render () {
     const { handleSubmit } = this.props
-    const fields = _.keys(FIELDS)
+    const fields = Object.keys(FIELDS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        { _.map(fields, (field) => {
+        { fields.map((field) => {
           return (
             <Field
               key={field}
@@ -74,7 +74,7 @@ function validate (values) {
   const errors = {}
 
   _.each(_.keys(FIELDS), (field) => {
-    if (!values.field) {
+    if (!values[field]) {
       errors[field] = `Enter some ${field}`
     }
   })
