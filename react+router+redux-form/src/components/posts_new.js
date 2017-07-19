@@ -7,15 +7,15 @@ import { connect } from 'react-redux'
 import { addPost } from '../actions/index'
 
 const FIELDS = {
-  title : {
+  title: {
     tag: 'input',
     label: 'Title'
   },
-  categories : {
+  categories: {
     tag: 'input',
     label: 'Categories'
   },
-  content : {
+  content: {
     tag: 'textarea',
     label: 'Post Content'
   }
@@ -47,10 +47,10 @@ class PostsNew extends Component {
 
   render () {
     const { handleSubmit } = this.props
-    const fields = Object.keys(FIELDS)
+    const fields = _.keys(FIELDS)
     return (
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
-        { fields.map((field) => {
+        { _.map(fields, (field) => {
           return (
             <Field
               key={field}
